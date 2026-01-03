@@ -134,14 +134,6 @@ Downloads/
 
 ---
 
-## 🧪 Tested On
-
-* Chrome (Manifest V3)
-* Public Pinterest boards
-* Boards with 1–250 pins per page
-
----
-
 ## 📜 License
 
 GNU GENERAL PUBLIC LICENSE

@@ -99,11 +99,8 @@ function selectDownloadableImage(pin) {
   return null; // No acceptable format found
 }
 
-function buildBoardFeedUrl(sourceUrl, boardId) {
-  const params = new URLSearchParams({
-    source_url: sourceUrl,
-    data: JSON.stringify({
-      options: {
+function buildBoardFeedUrl(sourceUrl, boardId, bookmark) {
+  let options = {
         board_id: boardId,
         board_url: sourceUrl,
         page_size: 250,
@@ -113,7 +110,15 @@ function buildBoardFeedUrl(sourceUrl, boardId) {
         sort: "default",
         layout: "default",
         redux_normalize_feed: true
-      },
+  };
+  if (bookmark) {
+    options.bookmarks = [bookmark];
+  }
+
+  const params = new URLSearchParams({
+    source_url: sourceUrl,
+    data: JSON.stringify({
+      options,
       context: {}
     }),
     _: Date.now()
@@ -191,11 +196,11 @@ async function fetchBoardId(boardUrl) {
   return id;
 }
 
-async function fetchImageUrlsForBoard(boardUrl, boardId, session) {
+async function fetchImageUrlsForBoard(boardUrl, boardId, session, bookmark = null) {
   if (session.canceled) return [];
 
   const { sourceUrl } = parseBoardUrl(boardUrl);
-  const url = buildBoardFeedUrl(sourceUrl, boardId);
+  const url = buildBoardFeedUrl(sourceUrl, boardId, bookmark);
 
   const res = await fetch(url, {
     credentials: "include",
@@ -212,7 +217,6 @@ async function fetchImageUrlsForBoard(boardUrl, boardId, session) {
 
   const json = await res.json();
   const pins = json.resource_response?.data || [];
-
   const images = [];
   for (const pin of pins) {
     if (pin.is_video) continue;
@@ -225,6 +229,11 @@ async function fetchImageUrlsForBoard(boardUrl, boardId, session) {
         ext: selected.ext,
         filename: filenameFromPin(pin, `pin-${pin.id}`)
     });
+  }
+
+  const nextBookmark = json.resource_response?.bookmark;
+  if (nextBookmark) {
+    return images.concat(await fetchImageUrlsForBoard(boardUrl, boardId, session, nextBookmark));
   }
 
   return images;
