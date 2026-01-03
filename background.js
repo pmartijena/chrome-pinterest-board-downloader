@@ -103,7 +103,7 @@ function buildBoardFeedUrl(sourceUrl, boardId, bookmark) {
   let options = {
         board_id: boardId,
         board_url: sourceUrl,
-        page_size: 25,
+        page_size: 250,
         field_set_key: "react_grid_pin",
         currentFilter: -1,
         filter_section_pins: true,
