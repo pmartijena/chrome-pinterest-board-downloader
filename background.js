@@ -103,7 +103,7 @@ function buildBoardFeedUrl(sourceUrl, boardId, bookmark) {
   let options = {
         board_id: boardId,
         board_url: sourceUrl,
-        page_size: 250,
+        page_size: 25,
         field_set_key: "react_grid_pin",
         currentFilter: -1,
         filter_section_pins: true,
@@ -159,7 +159,7 @@ function parseBoardUrl(boardUrl) {
 /**
  * Pinterest API
  */
-async function fetchBoardId(boardUrl) {
+async function fetchBoardInfo(boardUrl) {
   const { sourceUrl, username, slug } = parseBoardUrl(boardUrl);
   const params = new URLSearchParams({
     source_url: sourceUrl,
@@ -193,7 +193,9 @@ async function fetchBoardId(boardUrl) {
   if (!id) {
     throw new Error("Board ID not found");
   }
-  return id;
+
+  const name = json.resource_response?.data?.name || "Pinterest Board";
+  return {id, name};
 }
 
 async function fetchImageUrlsForBoard(boardUrl, boardId, session, bookmark = null) {
@@ -241,8 +243,8 @@ async function fetchImageUrlsForBoard(boardUrl, boardId, session, bookmark = nul
 
 async function downloadBoardImages(boardUrl) {
   try {
-    const boardId = await fetchBoardId(boardUrl);
-    const images = await fetchImageUrlsForBoard(boardUrl, boardId, session);
+    const { id, name } = await fetchBoardInfo(boardUrl);
+    const images = await fetchImageUrlsForBoard(boardUrl, id, session);
 
     session.total = images.length;
     session.completed = 0;
@@ -256,7 +258,7 @@ async function downloadBoardImages(boardUrl) {
 
       await chrome.downloads.download({
         url,
-        filename: `pinterest-downloader/${filename}.jpg`,
+        filename: `${name}/${filename}.jpg`,
         conflictAction: "uniquify"
       });
 
