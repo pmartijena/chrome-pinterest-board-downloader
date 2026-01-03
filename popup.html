@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Pinterest Downloader</title>
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
+    />
+
+    <style>
+      :root {
+        --pico-font-size: 14px;
+      }
+
+      body {
+        width: 300px;
+        padding: 1rem;
+      }
+
+      header {
+        text-align: center;
+        margin-bottom: 1rem;
+      }
+
+      progress {
+        width: 100%;
+      }
+
+      #status {
+        font-size: 0.8rem;
+        text-align: center;
+        margin-top: 0.5rem;
+        opacity: 0.7;
+      }
+    </style>
+  </head>
+
+  <body>
+    <main style="margin: 0 auto;">
+      <header>
+        <h3>📌 Pinterest Board</h3>
+        <p>Download all images from a board!</p>
+      </header>
+
+      <div style="display: flex; justify-content: center; gap: 0.5rem; flex-direction: column; max-width: 150px; margin: 0 auto;">
+            <button id="download" class="contrast" style="display: block;">
+                Download Images
+            </button>
+            <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                <progress id="progress" value="0" max="100" hidden style="min-width: 150px;"></progress>
+                <div id="status" hidden></div>
+                <button id="cancel" class="secondary" hidden>
+                    Cancel
+                </button>
+            </div>
+      </div>
+    </main>
+
+    <script src="popup.js"></script>
+  </body>
+</html>
