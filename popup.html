@@ -19,16 +19,45 @@
         padding: 1rem;
       }
 
-      header {
+      /* Layout */
+      .container {
+        margin: 0 auto;
+      }
+
+      .header {
         text-align: center;
         margin-bottom: 1rem;
       }
 
-      progress {
+      .controls {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        max-width: 200px;
+        margin: 0 auto;
+        align-items: center;
+      }
+
+      .actions {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        width: 100%;
+        align-items: center;
+      }
+
+      /* Elements */
+      .download-btn {
+        display: block;
         width: 100%;
       }
 
-      #status {
+      .progress {
+        width: 100%;
+        min-width: 150px;
+      }
+
+      .status {
         font-size: 0.8rem;
         text-align: center;
         margin-top: 0.5rem;
@@ -38,23 +67,32 @@
   </head>
 
   <body>
-    <main style="margin: 0 auto;">
-      <header>
+    <main class="container">
+      <header class="header">
         <h3>📌 Pinterest Board</h3>
         <p>Download all images from a board!</p>
       </header>
 
-      <div style="display: flex; justify-content: center; gap: 0.5rem; flex-direction: column; max-width: 150px; margin: 0 auto;">
-            <button id="download" class="contrast" style="display: block;">
-                Download Images
-            </button>
-            <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-                <progress id="progress" value="0" max="100" hidden style="min-width: 150px;"></progress>
-                <div id="status" hidden></div>
-                <button id="cancel" class="secondary" hidden>
-                    Cancel
-                </button>
-            </div>
+      <div class="controls">
+        <button id="download" class="contrast download-btn">
+          Download Images
+        </button>
+
+        <div class="actions">
+          <progress
+            id="progress"
+            class="progress"
+            value="0"
+            max="100"
+            hidden
+          ></progress>
+
+          <div id="status" class="status" hidden></div>
+
+          <button id="cancel" class="secondary" hidden>
+            Cancel
+          </button>
+        </div>
       </div>
     </main>
 
