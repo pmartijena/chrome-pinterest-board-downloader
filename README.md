@@ -146,12 +146,3 @@ Downloads/
 
 GNU GENERAL PUBLIC LICENSE
 Use responsibly. Respect Pinterest’s Terms of Service and content ownership.
-
----
-
-If you want, I can also:
-
-* Add a **screenshots section**
-* Write a **Chrome Web Store description**
-* Refactor this into **TypeScript**
-* Add **pagination support** for very large boards
