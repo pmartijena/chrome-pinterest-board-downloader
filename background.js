@@ -249,7 +249,7 @@ async function downloadBoardImages(boardUrl) {
     session.total = images.length;
     session.completed = 0;
 
-    for (const { url, filename } of images) {
+    for (const { url, filename, ext } of images) {
       if (session.canceled) {
         safeSend({ type: "DOWNLOAD_CANCELED" });
         session.status = "canceled";
@@ -258,7 +258,7 @@ async function downloadBoardImages(boardUrl) {
 
       await chrome.downloads.download({
         url,
-        filename: `${name}/${filename}.jpg`,
+        filename: `${name}/${filename}${ext}`,
         conflictAction: "uniquify"
       });
 
